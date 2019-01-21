@@ -3,7 +3,10 @@
     <?php if( isset( $_SESSION['usuario'] ) ) : ?>
         <div class="bloque">
             <h3>Bienvenido, <?= $_SESSION['usuario']['nombre'] . ' ' . $_SESSION['usuario']['apellidos'] ?></h3>   
-            <a href="cerrar.php" class="boton">Cerrar sesión</a>
+            <a href="cerrar.php" class="boton boton-verde">Crear entrada</a>
+            <a href="cerrar.php" class="boton">Crear categorias</a>
+            <a href="cerrar.php" class="boton boton-naranja">Mis datos</a>
+            <a href="cerrar.php" class="boton boton-rojo">Cerrar sesión</a>
         </div>
     <?php endif; ?>
     <div id="login" class="bloque">
