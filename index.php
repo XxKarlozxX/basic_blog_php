@@ -1,40 +1,28 @@
 <?php require_once './includes/cabecera.php'; ?>
-        
+<?php require_once './includes/lateral.php'; ?>
 
-           <?php require_once './includes/lateral.php'; ?>
+<div id="principal">
+    <h1> Ultimas entradas</h1>
+    <?php 
+    $entradas = conseguirUltimasEntradas( $db );
+    if ( ! empty( $entradas ) ) :
+        while(  $entrada = mysqli_fetch_assoc( $entradas ) ) :
+    ?>
+            <article class="entrada">
+                <a href="">
+                    <h2><?= $entrada['titulo'] ?></h2>
+                    <span class="fecha"><?= $entrada['categoria'] . ' | ' . $entrada['fecha'] ?></span>
+                    <p><?= substr( $entrada['descripcion'], 0, 200 ) ?></p>
+                </a>
+            </article>
+    <?php
+        endwhile;
+    endif;
+    ?>
 
-            <div id="principal">
-                <h1> Ultimas entradas</h1>
-                <article class="entrada">
-                    <a href="">
-                        <h2> Titulo de mi entrada </h2>
-                        <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dapibus urna nec euismod euismod.
-                        Pellentesque dictum fringilla ante in blandit. Aliquam est ligula, egestas interdum fermentum vel, luctus vel turpis.
-                        </p>
-                    </a>
-                </article>
-                <article class="entrada">
-                    <a href="">
-                        <h2> Titulo de mi entrada </h2>
-                        <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dapibus urna nec euismod euismod.
-                        Pellentesque dictum fringilla ante in blandit. Aliquam est ligula, egestas interdum fermentum vel, luctus vel turpis.
-                        </p>
-                    </a>
-                </article>
-                <article class="entrada">
-                    <a href="">
-                        <h2> Titulo de mi entrada </h2>
-                        <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dapibus urna nec euismod euismod.
-                        Pellentesque dictum fringilla ante in blandit. Aliquam est ligula, egestas interdum fermentum vel, luctus vel turpis.
-                        </p>
-                    </a>
-                </article>
-                <div id="ver-todas">
-                    <a href="">Ver todas las entradas</a>
-                </div>
-            </div>
-           
+    <div id="ver-todas">
+        <a href="">Ver todas las entradas</a>
+    </div>
+</div>
+
 <?php require_once './includes/pie.php'; ?>

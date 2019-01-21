@@ -1,4 +1,3 @@
-<?php require_once 'includes/helpers.php'; ?>
 <aside id="sidebar">
     <?php if( isset( $_SESSION['usuario'] ) ) : ?>
         <div class="bloque">
@@ -9,6 +8,7 @@
             <a href="cerrar.php" class="boton boton-rojo">Cerrar sesión</a>
         </div>
     <?php endif; ?>
+    <?php if ( ! isset( $_SESSION['usuario'] ) ) : ?>
     <div id="login" class="bloque">
         <h3>Identificate</h3>
         <?php if( isset( $_SESSION['error_login'] ) ) : ?>
@@ -59,4 +59,5 @@
         </form>
         <?php borrarErrores(); ?>
     </div>
+    <?php endif;?>
 </aside>
