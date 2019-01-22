@@ -1,7 +1,10 @@
 <?php
 if ( isset( $_POST ) ) {
     require_once 'includes/conexion.php';
-    session_start();
+    
+    if ( ! isset( $_SESSION ) ) {
+        session_start();
+    }
 
     $nombre = isset( $_POST['nombre'] ) ? mysqli_real_escape_string($db, $_POST['nombre'] ) : false;
     $apellidos = isset( $_POST['apellidos'] ) ?  mysqli_real_escape_string($db, $_POST['apellidos'] ) : false;
