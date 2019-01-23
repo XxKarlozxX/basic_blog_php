@@ -17,7 +17,7 @@ if ( isset( $_POST) ) {
     }
 
     if ( empty( $description ) ) {
-        $errores['description'] = 'La description no es valida';
+        $errores['descripcion'] = 'La description no es valida';
     }
 
     if ( empty( $categoria ) && ! is_numeric( $categoria ) ) {
@@ -28,12 +28,11 @@ if ( isset( $_POST) ) {
         $sql = "INSERT INTO entradas VALUES(null, $usuario, $categoria, '$titulo', '$description', CURDATE());";
 
         $guardar = mysqli_query( $db, $sql );
-        //var_dump( mysql_error());
-        //die();
+
+        header('Location: index.php');
+
     } else {
-        $_SESSION['errores_entrda'] = $errores;
+        $_SESSION['errores_entrada'] = $errores;
+        header( 'Location: crear-entrada.php' );
     }
-
-
 }
-header('Location: index.php');
