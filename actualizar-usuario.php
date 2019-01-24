@@ -36,25 +36,36 @@ if ( isset( $_POST ) ) {
    
     $guardar_usuario = false;
     if ( count( $errores ) == 0 ) {
+        $usuario = $_SESSION['usuario'];
         $guardar_usuario = true;
       
-        $usuario = $_SESSION['usuario'];
-        $sql = "UPDATE usuarios SET " .
-                "nombre = '$nombre', " .
-                "apellidos = '$apellidos', " .
-                "email = '$email' " .
-                "WHERE id = " . $usuario['id'];
+        //comprobar si el email ya existe
+        $sql = "SELECT id, email FROM usuarios WHERE email = '$email'";
+        $isset_email = mysqli_query( $db, $sql );
+        $isset_user = mysqli_fetch_assoc( $isset_email );
 
-        $guardar = mysqli_query( $db, $sql );
+        if ( $isset_user['id'] == $usuario['id'] || empty( $isset_user ) ) {
 
-        if ( $guardar ) {
-            $_SESSION['usuario']['nombre'] = $nombre;
-            $_SESSION['usuario']['apellidos'] = $apellidos;
-            $_SESSION['usuario']['email'] = $email;
-            
-            $_SESSION['completado'] = "Tus datos se han actualizado con exito!";
+            // Actualizar usuario en la tabla usuario de la 
+            $sql = "UPDATE usuarios SET " .
+                    "nombre = '$nombre', " .
+                    "apellidos = '$apellidos', " .
+                    "email = '$email' " .
+                    "WHERE id = " . $usuario['id'];
+
+            $guardar = mysqli_query( $db, $sql );
+
+            if ( $guardar ) {
+                $_SESSION['usuario']['nombre'] = $nombre;
+                $_SESSION['usuario']['apellidos'] = $apellidos;
+                $_SESSION['usuario']['email'] = $email;
+
+                $_SESSION['completado'] = "Tus datos se han actualizado con exito!";
+            } else {
+                $_SESSION['errores']['generales'] = "Fallo al actualizar tus datos";
+            }
         } else {
-            $_SESSION['errores']['generales'] = "Fallo al actualizar tus datos";
+            $_SESSION['errores']['generales'] = "El usuario ya existe";
         }
 
     } else {
