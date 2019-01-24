@@ -172,6 +172,7 @@ input[type="button"],
 .boton {
     text-align: center;
     width: 130px;
+    color: white !important;
 }
 
 .boton-naranja {
