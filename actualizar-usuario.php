@@ -2,14 +2,9 @@
 if ( isset( $_POST ) ) {
     require_once 'includes/conexion.php';
     
-    if ( ! isset( $_SESSION ) ) {
-        session_start();
-    }
-
     $nombre = isset( $_POST['nombre'] ) ? mysqli_real_escape_string($db, $_POST['nombre'] ) : false;
     $apellidos = isset( $_POST['apellidos'] ) ?  mysqli_real_escape_string($db, $_POST['apellidos'] ) : false;
     $email = isset( $_POST['email'] ) ?  mysqli_real_escape_string($db, trim( $_POST['email'] ) ) : false;
-    $password = isset( $_POST['password'] ) ?  mysqli_real_escape_string($db, $_POST['password'] ): false;
     
     //array de errores
     $errores = array();
@@ -38,29 +33,39 @@ if ( isset( $_POST ) ) {
         $errores['email'] = "El email no es valido";
     }
 
-    // validar contraseña
-    if ( ! empty( $password ) ) {
-        $password_validado = true;
-    }  else {
-        $password_validado = false;
-        $errores['password'] = "La contraseña esta vacia";
-    }
-
+   
     $guardar_usuario = false;
     if ( count( $errores ) == 0 ) {
+        $usuario = $_SESSION['usuario'];
         $guardar_usuario = true;
+      
+        //comprobar si el email ya existe
+        $sql = "SELECT id, email FROM usuarios WHERE email = '$email'";
+        $isset_email = mysqli_query( $db, $sql );
+        $isset_user = mysqli_fetch_assoc( $isset_email );
 
-        //Cifrar la contraseña
-        $password_segura = password_hash( $password, PASSWORD_BCRYPT, ['cost' => 4] );
-        
-        $sql = "INSERT INTO usuarios values ( null, '$nombre', '$apellidos', '$email', '$password_segura', CURDATE() )"; 
-        $guardar = mysqli_query( $db, $sql );
+        if ( $isset_user['id'] == $usuario['id'] || empty( $isset_user ) ) {
 
+            // Actualizar usuario en la tabla usuario de la 
+            $sql = "UPDATE usuarios SET " .
+                    "nombre = '$nombre', " .
+                    "apellidos = '$apellidos', " .
+                    "email = '$email' " .
+                    "WHERE id = " . $usuario['id'];
 
-        if ( $guardar ) {
-            $_SESSION['completado'] = "El registro se ha completado con exito";
+            $guardar = mysqli_query( $db, $sql );
+
+            if ( $guardar ) {
+                $_SESSION['usuario']['nombre'] = $nombre;
+                $_SESSION['usuario']['apellidos'] = $apellidos;
+                $_SESSION['usuario']['email'] = $email;
+
+                $_SESSION['completado'] = "Tus datos se han actualizado con exito!";
+            } else {
+                $_SESSION['errores']['generales'] = "Fallo al actualizar tus datos";
+            }
         } else {
-            $_SESSION['errores']['generales'] = "Fallo al guardar al usuario";
+            $_SESSION['errores']['generales'] = "El usuario ya existe";
         }
 
     } else {
@@ -69,4 +74,4 @@ if ( isset( $_POST ) ) {
 
 }
 
-header("Location: index.php");
+header("Location: mis-datos.php");
