@@ -8,6 +8,10 @@ class Usuario extends ModeloBase {
     public $email;
     public $password;
 
+    public function __construct() {
+        parent::__construct();
+    }
+
     // Getter
     function getNombre() {
         return $this->nombre;
@@ -42,4 +46,8 @@ class Usuario extends ModeloBase {
         $this->password = $password;
     }
 
+    //Other functions
+   /* public function conseguirTodos() {
+        return "Sacando todos los usuario";
+   }*/
 }

@@ -6,6 +6,10 @@ class Nota extends ModeloBase {
     public $nombre;
     public $contenido;
 
+    public function __construct() {
+        parent::__construct();
+    }
+
     //Getters
     function getNombre() {
         return $this->nombre;
@@ -24,4 +28,9 @@ class Nota extends ModeloBase {
         $this->contenido = $contenido;
     }
 
+    // Other functions
+    /*public function conseguirTodos() {
+        return "Sacando todos los usuario";
+    }*/
 }
+
