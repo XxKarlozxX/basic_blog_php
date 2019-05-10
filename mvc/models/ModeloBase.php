@@ -9,8 +9,8 @@ class ModeloBase {
         $this->db = database::conectar();
     }
 
-    public function conseguirTodos() {
-        var_dump( $this->db );
-        return "sacando todos los datos";
+    public function conseguirTodos($tabla) {
+        $query = $this->db->query("SELECT * FROM $tabla");
+        return $query;
     }
 }

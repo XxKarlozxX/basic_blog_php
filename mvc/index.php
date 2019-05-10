@@ -1,4 +1,3 @@
-<h1>Una web con MVC</h1>
 <?php
 require_once 'autoload.php';
 
