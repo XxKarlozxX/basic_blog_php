@@ -1,0 +1,13 @@
+<ifModule mod_rewrite.c>
+  RewriteEngine on
+  ErrorDocument 404 http://localhost/blog/web-store/error/index
+
+  # Comprobar que las url no la saque si es un directorio o un fichero.
+  RewriteCond %{SCRIPT_FILENAME} !-d
+  RewriteCond %{SCRIPT_FILENAME} !-f
+
+  # Reescribe a este formato lo que llegue con el formato index...
+  RewriteRule ^(.*)/(.*) index.php?controller=$1&action=$2
+
+
+</ifModule>
